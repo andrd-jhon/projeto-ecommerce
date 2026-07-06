@@ -18,5 +18,8 @@ namespace Ecommerce.Domain.Entities
         public int ProdutoId { get; set; }
         public string Nome { get; set; }
         public string Preco { get; set; }
+
+        public Categoria Categoria { get; set; }
+        public int CategoriaId { get; set; }
     }
 }
