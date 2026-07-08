@@ -9,11 +9,16 @@ namespace Ecommerce.Domain.Entities
 {
     public class Categoria
     {
-        public Categoria()
+        public Categoria(string nome)
         {
+            this.Nome = nome;
         }
-        public int CategoriaId { get; set; }
-        public string CategoriaNome { get; set; }
-        public ICollection<Produto> Produtos { get; set; }
+        public int CategoriaId { get; private set; }
+        public string Nome { get; private set; }
+        public bool Ativo {  get; private set; }
+        public DateTime DataCriacao {  get; private set; }
+        public DateTime? DataAtualizacao { get; private set; }
+        
+        public ICollection<Produto> Produtos { get; private set; } = [];
     }
 }

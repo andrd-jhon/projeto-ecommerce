@@ -8,7 +8,24 @@ public class CategoriaConfiguration : IEntityTypeConfiguration<Categoria>
 {
     public void Configure(EntityTypeBuilder<Categoria> builder)
     {
-        builder.HasKey(t => t.CategoriaId);
-        builder.Property(p => p.CategoriaNome).HasMaxLength(100).IsRequired();
+        //Chave primária
+        builder.HasKey(c => c.CategoriaId);
+
+        //Propriedades
+        builder.Property(c => c.Nome)
+            .HasMaxLength(100)
+            .IsRequired();
+
+        builder.Property(c => c.Ativo)
+            .HasDefaultValue(true)
+            .IsRequired();
+
+        builder.Property(c => c.DataCriacao)
+            .IsRequired();
+
+        builder.Property(c => c.DataAtualizacao)
+            .IsRequired(false);
+
+        //relacionamento já definido em -->ProdutoConfiguration<--
     }
 }
