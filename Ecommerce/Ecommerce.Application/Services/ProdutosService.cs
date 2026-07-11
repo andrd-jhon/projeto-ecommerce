@@ -1,4 +1,6 @@
-﻿using Ecommerce.Application.Interfaces;
+﻿using AutoMapper;
+using Ecommerce.Application.DTOs;
+using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
 using System;
@@ -12,16 +14,54 @@ namespace Ecommerce.Application.Services
     public class ProdutosService: IProdutosService
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IMapper _mapper;
 
-        public ProdutosService(IProdutoRepository produtoRepository)
+        public ProdutosService(IProdutoRepository produtoRepository, IMapper mapper)
         {
-            this._produtoRepository = produtoRepository;
+            _produtoRepository = produtoRepository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Produto> GetAllProdutos()
+        public IEnumerable<ProdutoDTO> GetAllProdutos()
         {
-            var teste = _produtoRepository.GetAll();
-            return teste;
+            var produtos = _produtoRepository.GetAll();
+
+            var produtosDTOs = new List<ProdutoDTO>();
+
+            foreach (var produto in produtos)
+            {
+                produtosDTOs.Add(_mapper.Map<ProdutoDTO>(produto));
+            } 
+
+            return produtosDTOs;
+        }
+
+        public ProdutoDTO CreateProduto (ProdutoDTO produtoDTO)
+        {
+            var produto = _mapper.Map<Produto>(produtoDTO);
+
+            produto = _produtoRepository.Create(produto);
+
+            if (produto == null)
+                throw new Exception("Erro ao criar produto");
+
+            produtoDTO = _mapper.Map<ProdutoDTO>(produto);
+
+            return produtoDTO;
+        }
+
+        public ProdutoDTO UpdateProduto (ProdutoDTO produtoDTO)
+        {
+            var produto = _mapper.Map<Produto>(produtoDTO);
+
+            produto = _produtoRepository.Update(produto);
+
+            if (produto == null)
+                throw new Exception("Erro ao atualizar produto");
+
+            produtoDTO = _mapper.Map<ProdutoDTO>(produto);
+
+            return produtoDTO;
         }
     }
 }

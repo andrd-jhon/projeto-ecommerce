@@ -1,6 +1,5 @@
-﻿using Ecommerce.Application.Interfaces;
-using Ecommerce.Domain.Entities;
-using Ecommerce.Domain.Interfaces;
+﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers
@@ -17,9 +16,29 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Index()
+        public ActionResult<IEnumerable<ProdutoDTO>> Index()
         {
             return Ok(_produtosService.GetAllProdutos());
+        }
+
+        [HttpPost]
+        public ActionResult<ProdutoDTO> Create (ProdutoDTO produtoDTO)
+        {
+            return Ok(_produtosService.CreateProduto(produtoDTO));
+        }
+
+        [HttpPut]
+        public ActionResult<ProdutoDTO> Update (ProdutoDTO produtoDTO)
+        {
+            try
+            {
+                return Ok(_produtosService.UpdateProduto(produtoDTO));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

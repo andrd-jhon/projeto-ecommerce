@@ -1,4 +1,5 @@
-﻿using Ecommerce.Domain.Entities;
+﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace Ecommerce.Application.Interfaces
 {
     public interface IProdutosService
     {
-        IEnumerable<Produto> GetAllProdutos();
+        IEnumerable<ProdutoDTO> GetAllProdutos();
+        ProdutoDTO CreateProduto(ProdutoDTO produtoDTO);
+        ProdutoDTO UpdateProduto(ProdutoDTO produtoDTO);
     }
 }
