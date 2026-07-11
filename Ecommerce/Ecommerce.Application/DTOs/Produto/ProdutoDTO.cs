@@ -7,11 +7,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Application.DTOs
+namespace Ecommerce.Application.DTOs.Produto
 {
     public class ProdutoDTO
     {
-        public int ProdutoId { get; set; }
+        public int Id { get; set; }
         [Required]
         [StringLength(100)]
         public string Nome { get; set; }
@@ -19,5 +19,7 @@ namespace Ecommerce.Application.DTOs
         public string Preco { get; set; }
         [Required]
         public int CategoriaId { get; set; }
+        [Required]
+        public bool Ativo {  get; set; }
     }
 }

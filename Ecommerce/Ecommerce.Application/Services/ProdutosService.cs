@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Ecommerce.Application.DTOs;
+using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
@@ -22,15 +22,15 @@ namespace Ecommerce.Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<ProdutoDTO> GetAllProdutos()
+        public IEnumerable<ProdutoResponseDTO> GetAllProdutos()
         {
             var produtos = _produtoRepository.GetAll();
 
-            var produtosDTOs = new List<ProdutoDTO>();
+            var produtosDTOs = new List<ProdutoResponseDTO>();
 
             foreach (var produto in produtos)
             {
-                produtosDTOs.Add(_mapper.Map<ProdutoDTO>(produto));
+                produtosDTOs.Add(_mapper.Map<ProdutoResponseDTO>(produto));
             } 
 
             return produtosDTOs;
@@ -60,6 +60,18 @@ namespace Ecommerce.Application.Services
                 throw new Exception("Erro ao atualizar produto");
 
             produtoDTO = _mapper.Map<ProdutoDTO>(produto);
+
+            return produtoDTO;
+        }
+
+        public ProdutoDTO DeleteProduto (ProdutoDTO produtoDTO)
+        {
+            if (produtoDTO.Ativo)
+                produtoDTO.Ativo = false;
+
+            var produto = _mapper.Map<Produto>(produtoDTO);
+
+            produtoDTO = _mapper.Map<ProdutoDTO>(_produtoRepository.Update(produto));
 
             return produtoDTO;
         }

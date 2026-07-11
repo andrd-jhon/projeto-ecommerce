@@ -13,7 +13,7 @@ namespace Ecommerce.Infrastructure.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Produto> builder)
         {
-            builder.HasKey(t => t.ProdutoId);
+            builder.HasKey(t => t.Id);
             builder.Property(p => p.Nome).HasMaxLength(100).IsRequired();
             builder.Property(p => p.Preco).HasMaxLength(100).IsRequired();
 

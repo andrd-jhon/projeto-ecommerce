@@ -24,11 +24,11 @@ namespace Ecommerce.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Categoria", b =>
                 {
-                    b.Property<int>("CategoriaId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CategoriaId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Ativo")
                         .ValueGeneratedOnAdd()
@@ -46,18 +46,21 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.HasKey("CategoriaId");
+                    b.HasKey("Id");
 
                     b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Produto", b =>
                 {
-                    b.Property<int>("ProdutoId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProdutoId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");
@@ -67,12 +70,11 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("Preco")
-                        .IsRequired()
+                    b.Property<decimal>("Preco")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("decimal(65,30)");
 
-                    b.HasKey("ProdutoId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
 

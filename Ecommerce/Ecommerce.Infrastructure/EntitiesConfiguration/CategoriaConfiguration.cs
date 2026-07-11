@@ -9,7 +9,7 @@ public class CategoriaConfiguration : IEntityTypeConfiguration<Categoria>
     public void Configure(EntityTypeBuilder<Categoria> builder)
     {
         //Chave primária
-        builder.HasKey(c => c.CategoriaId);
+        builder.HasKey(c => c.Id);
 
         //Propriedades
         builder.Property(c => c.Nome)

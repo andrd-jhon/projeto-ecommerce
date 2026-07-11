@@ -1,4 +1,4 @@
-﻿using Ecommerce.Application.DTOs;
+﻿using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,13 +18,27 @@ namespace Ecommerce.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ProdutoDTO>> Index()
         {
-            return Ok(_produtosService.GetAllProdutos());
+            try
+            {
+                return Ok(_produtosService.GetAllProdutos());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         public ActionResult<ProdutoDTO> Create (ProdutoDTO produtoDTO)
         {
-            return Ok(_produtosService.CreateProduto(produtoDTO));
+            try
+            {
+                return Ok(_produtosService.CreateProduto(produtoDTO));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
@@ -39,6 +53,20 @@ namespace Ecommerce.API.Controllers
                 return BadRequest(ex.Message);
             }
             
+        }
+
+        [HttpPut]
+        public ActionResult<ProdutoResponseDTO> Delete(ProdutoDTO produtoDTO)
+        {
+            try
+            {
+                return Ok(_produtosService.Delete(produtoDTO));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
