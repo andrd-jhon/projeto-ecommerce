@@ -1,4 +1,5 @@
-﻿using Ecommerce.Domain.Entities;
+﻿using Ecommerce.Application.Interfaces;
+using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +9,17 @@ namespace Ecommerce.API.Controllers
     [ApiController]
     public class ProdutosController : ControllerBase
     {
-        private readonly IProdutoRepository _produtoRepository;
+        private readonly IProdutosService _produtosService;
 
-        public ProdutosController(IProdutoRepository produtoRepository)
+        public ProdutosController(IProdutosService produtosService)
         {
-            this._produtoRepository = produtoRepository;
+            _produtosService = produtosService;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Index()
         {
-            var teste = _produtoRepository.GetAll();
-
-            return teste.ToList();
+            return Ok(_produtosService.GetAllProdutos());
         }
     }
 }

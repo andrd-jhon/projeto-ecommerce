@@ -11,10 +11,6 @@ namespace Ecommerce.Domain.Entities
 {
     public class Produto
     {
-        public Produto (int produtoId)
-        {
-        }
-
         public int ProdutoId { get; set; }
         public string Nome { get; set; }
         public string Preco { get; set; }

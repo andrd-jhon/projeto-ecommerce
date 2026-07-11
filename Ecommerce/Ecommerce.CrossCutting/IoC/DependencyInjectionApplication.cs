@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Ecommerce.Application.Interfaces;
+using Ecommerce.Application.Services;
+using Ecommerce.Domain.Interfaces;
+using Ecommerce.Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ecommerce.CrossCutting.IoC
 {
@@ -7,6 +11,9 @@ namespace Ecommerce.CrossCutting.IoC
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             //adicionar services
+
+            services.AddScoped<IProdutosService, ProdutosService>();
+
 
             return services;
         }
