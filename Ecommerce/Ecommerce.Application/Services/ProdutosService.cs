@@ -75,5 +75,19 @@ namespace Ecommerce.Application.Services
 
             return produtoDTO;
         }
+
+        public List<ProdutoDTO> CarregarProdutos ()
+        {
+            var produtos = _produtoRepository.GetAll().Where(p => p.Ativo == true);
+
+            var produtosDTOs = new List<ProdutoDTO>();
+
+            foreach (var produto in produtos)
+            {
+                produtosDTOs.Add(_mapper.Map<ProdutoDTO>(produto));
+            }
+
+            return produtosDTOs;
+        }
     }
 }

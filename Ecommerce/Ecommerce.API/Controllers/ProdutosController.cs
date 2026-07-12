@@ -20,7 +20,7 @@ namespace Ecommerce.API.Controllers
         {
             try
             {
-                return Ok(_produtosService.GetAllProdutos());
+                return Ok(_produtosService.CarregarProdutos());
             }
             catch (Exception ex)
             {
@@ -55,18 +55,17 @@ namespace Ecommerce.API.Controllers
             
         }
 
-        [HttpPut]
+        [HttpDelete]
         public ActionResult<ProdutoResponseDTO> Delete(ProdutoDTO produtoDTO)
         {
             try
             {
-                return Ok(_produtosService.Delete(produtoDTO));
+                return Ok(_produtosService.DeleteProduto(produtoDTO));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Ecommerce.Application.Interfaces
         ProdutoDTO CreateProduto(ProdutoDTO produtoDTO);
         ProdutoDTO UpdateProduto(ProdutoDTO produtoDTO);
         ProdutoDTO DeleteProduto(ProdutoDTO produtoDTO);
+        List<ProdutoDTO> CarregarProdutos();
     }
 }

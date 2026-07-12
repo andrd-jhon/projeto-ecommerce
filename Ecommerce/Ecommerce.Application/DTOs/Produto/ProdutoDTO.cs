@@ -16,7 +16,7 @@ namespace Ecommerce.Application.DTOs.Produto
         [StringLength(100)]
         public string Nome { get; set; }
         [Required]
-        public string Preco { get; set; }
+        public decimal Preco { get; set; }
         [Required]
         public int CategoriaId { get; set; }
         [Required]

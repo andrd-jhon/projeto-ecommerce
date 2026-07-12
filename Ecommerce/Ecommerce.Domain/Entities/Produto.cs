@@ -17,8 +17,8 @@ namespace Ecommerce.Domain.Entities
         }
         public string Nome { get; set; }
         public decimal Preco { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public DateTime DataAtualizacao { get; set; }
+        //public DateTime DataCriacao { get; set; }
+        //public DateTime DataAtualizacao { get; set; }
         public Categoria Categoria { get; set; }
         public int CategoriaId { get; set; }
     }
