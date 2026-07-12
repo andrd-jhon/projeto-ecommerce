@@ -50,18 +50,18 @@ namespace Ecommerce.Application.Services
             return produtoDTO;
         }
 
-        public ProdutoDTO UpdateProduto (ProdutoDTO produtoDTO)
+        public ProdutoDTO UpdateProduto (ProdutoDTO produtoDTO, int id)
         {
-            var produto = _mapper.Map<Produto>(produtoDTO);
+            if (produtoDTO.Id != id)
+                throw new ArgumentException("O ID informado não corresponde ao ID do produto.");
 
-            produto = _produtoRepository.Update(produto);
+            var produto = _produtoRepository.GetById(id) ?? throw new InvalidOperationException("Produto não encontrado.");
 
-            if (produto == null)
-                throw new Exception("Erro ao atualizar produto");
+            _mapper.Map(produtoDTO, produto);
 
-            produtoDTO = _mapper.Map<ProdutoDTO>(produto);
+            var produtoAtualizado = _produtoRepository.Update(produto);
 
-            return produtoDTO;
+            return _mapper.Map<ProdutoDTO>(produtoAtualizado);
         }
 
         public ProdutoDTO DeleteProduto (ProdutoDTO produtoDTO)

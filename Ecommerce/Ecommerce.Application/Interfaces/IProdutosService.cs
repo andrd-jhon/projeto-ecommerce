@@ -12,7 +12,7 @@ namespace Ecommerce.Application.Interfaces
     {
         IEnumerable<ProdutoResponseDTO> GetAllProdutos();
         ProdutoDTO CreateProduto(ProdutoDTO produtoDTO);
-        ProdutoDTO UpdateProduto(ProdutoDTO produtoDTO);
+        ProdutoDTO UpdateProduto(ProdutoDTO produtoDTO, int id);
         ProdutoDTO DeleteProduto(ProdutoDTO produtoDTO);
         List<ProdutoDTO> CarregarProdutos();
     }

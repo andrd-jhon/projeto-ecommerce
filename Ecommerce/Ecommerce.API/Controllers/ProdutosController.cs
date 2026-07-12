@@ -16,7 +16,7 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProdutoDTO>> Index()
+        public ActionResult<IEnumerable<ProdutoDTO>> Get()
         {
             try
             {
@@ -42,11 +42,11 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpPut]
-        public ActionResult<ProdutoDTO> Update (ProdutoDTO produtoDTO)
+        public ActionResult<ProdutoDTO> Update (ProdutoDTO produtoDTO, int id)
         {
             try
             {
-                return Ok(_produtosService.UpdateProduto(produtoDTO));
+                return Ok(_produtosService.UpdateProduto(produtoDTO, id));
             }
             catch (Exception ex)
             {
