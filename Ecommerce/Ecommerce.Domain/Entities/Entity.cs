@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Domain.Entities
 {
-    public class Entity
+    public abstract class Entity
     {
         public int Id { get; protected set; }
-        public bool Ativo { get; set; }
+        public bool Ativo { get; set; } = true;
     }
 }

@@ -19,6 +19,7 @@ namespace Ecommerce.CrossCutting.IoC
 
             //repositórios específicos
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
             //Unit of Work
 

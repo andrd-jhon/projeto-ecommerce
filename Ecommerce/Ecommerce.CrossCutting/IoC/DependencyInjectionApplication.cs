@@ -18,6 +18,7 @@ namespace Ecommerce.CrossCutting.IoC
             //adicionar services
 
             services.AddScoped<IProdutosService, ProdutosService>();
+            services.AddScoped<ICategoriasService, CategoriasService>();
 
             //adicionar automapper
 
