@@ -78,7 +78,7 @@ namespace Ecommerce.Application.Services
 
         public List<ProdutoDTO> CarregarProdutos ()
         {
-            var produtos = _produtoRepository.GetAll().Where(p => p.Ativo == true);
+            var produtos = _produtoRepository.GetAll();
 
             var produtosDTOs = new List<ProdutoDTO>();
 
