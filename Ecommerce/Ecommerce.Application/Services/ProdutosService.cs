@@ -42,9 +42,6 @@ namespace Ecommerce.Application.Services
 
             produto = _produtoRepository.Create(produto);
 
-            if (produto == null)
-                throw new Exception("Erro ao criar produto");
-
             produtoDTO = _mapper.Map<ProdutoDTO>(produto);
 
             return produtoDTO;
@@ -55,9 +52,10 @@ namespace Ecommerce.Application.Services
             if (produtoDTO.Id != id)
                 throw new ArgumentException("O ID informado não corresponde ao ID do produto.");
 
-            var produto = _produtoRepository.GetById(id) ?? throw new InvalidOperationException("Produto não encontrado.");
+            var produto = _produtoRepository.GetById(id) 
+                ?? throw new InvalidOperationException("Produto não encontrado.");
 
-            _mapper.Map(produtoDTO, produto);
+            produto.Atualizar(produtoDTO.Nome, produtoDTO.Preco, produtoDTO.CategoriaId);
 
             var produtoAtualizado = _produtoRepository.Update(produto);
 

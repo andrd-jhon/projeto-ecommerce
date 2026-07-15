@@ -42,14 +42,13 @@ namespace Ecommerce.Domain.Entities
             DataCriacao = DateTime.Now;
         }
 
-        private void AtualizarEntidade(string nome, decimal preco, int categoriaId, DateTime dataCriacao)
+        public void Atualizar(string nome, decimal preco, int categoriaId)
         {
             ValidarEntidade(nome, preco, categoriaId);
             Nome = nome;
             Preco = Math.Round(preco, 2);
             CategoriaId = categoriaId;
-            DataCriacao = dataCriacao;
-            DataAtualizacao = DateTime.UtcNow;
+            DataAtualizacao = DateTime.Now;
         }
 
         private void ValidarNome(string nome)
