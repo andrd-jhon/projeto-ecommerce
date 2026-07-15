@@ -63,11 +63,12 @@ namespace Ecommerce.Application.Services
 
         public CategoriaDTO DesativarCategoria(int id)
         {
-            var categoria = _categoriaRepository.GetById(id);
+            if (id <= 0)
+                throw new ArgumentException("O ID deve ser maior que 0.");
 
-            if (categoria == null)
-                throw new InvalidOperationException("Categoria inexistente");
-
+            var categoria = _categoriaRepository.GetById(id)
+                ?? throw new InvalidOperationException("Categoria inexistente.");
+            
             categoria.Desativar();
 
             var categoriaDTO = _mapper.Map<CategoriaDTO>(_categoriaRepository.Update(categoria));
