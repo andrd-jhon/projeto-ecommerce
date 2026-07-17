@@ -18,54 +18,25 @@ namespace Ecommerce.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ProdutoDTO>> Get()
         {
-            try
-            {
-                return Ok(_produtosService.CarregarProdutos());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_produtosService.CarregarProdutos());
         }
 
         [HttpPost]
         public ActionResult<ProdutoDTO> Create (ProdutoDTO produtoDTO)
         {
-            try
-            {
-                return Ok(_produtosService.CreateProduto(produtoDTO));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_produtosService.CreateProduto(produtoDTO));
         }
 
         [HttpPut]
         public ActionResult<ProdutoDTO> Update (ProdutoDTO produtoDTO, int id)
         {
-            try
-            {
-                return Ok(_produtosService.UpdateProduto(produtoDTO, id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
+            return Ok(_produtosService.UpdateProduto(produtoDTO, id));
         }
 
         [HttpDelete]
         public ActionResult<ProdutoResponseDTO> Delete(ProdutoDTO produtoDTO)
-        {
-            try
-            {
-                return Ok(_produtosService.DeleteProduto(produtoDTO));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        { 
+            return Ok(_produtosService.DeleteProduto(produtoDTO));
         }
     }
 }
