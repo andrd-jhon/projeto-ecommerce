@@ -1,7 +1,5 @@
 ﻿using Ecommerce.Application.DTOs.Categoria;
-using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers
@@ -20,53 +18,25 @@ namespace Ecommerce.API.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            try
-            {
-                return Ok(_categoriasService.GetAllCategorias());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_categoriasService.GetAllCategorias());
         }
 
         [HttpPost]
         public ActionResult Create(CategoriaDTO categoriaDTO)
         {
-            try
-            {
-                return Ok(_categoriasService.CreateCategoria(categoriaDTO));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_categoriasService.CreateCategoria(categoriaDTO));
         }
 
         [HttpPut]
         public ActionResult Update(CategoriaDTO categoriaDTO, int id)
         {
-            try
-            {
-                return Ok(_categoriasService.UpdateCategoria(categoriaDTO, id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_categoriasService.UpdateCategoria(categoriaDTO, id));
         }
 
         [HttpDelete]
         public ActionResult<CategoriaDTO> Delete(int id)
         {
-            try
-            {
-                return Ok(_categoriasService.DesativarCategoria(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_categoriasService.DesativarCategoria(id));
         }
     }
 }
