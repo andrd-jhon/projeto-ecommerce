@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using Ecommerce.Application.Common.Pagination;
 using Ecommerce.Application.DTOs.Categoria;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
+using System.Linq;
 
 namespace Ecommerce.Application.Services
 {
     public class CategoriasService: ICategoriasService
+
     {
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IMapper _mapper;
@@ -19,9 +22,16 @@ namespace Ecommerce.Application.Services
 
         }
 
-        public IEnumerable<CategoriaDTO> GetAllCategorias ()
+        public PagedList<CategoriaDTO> GetAllCategorias (int pageSize, int pageNumber)
         {
-            var categorias = _categoriaRepository.GetAll();
+            var parameters = new PaginationParameters(pageSize, pageNumber);
+            var categorias = _categoriaRepository.GetAll()
+                .OrderBy(c => c.Nome)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToList();
+
+            
 
             var categoriasDTOs = new List<CategoriaDTO>();
 
@@ -30,7 +40,9 @@ namespace Ecommerce.Application.Services
                 categoriasDTOs.Add(_mapper.Map<CategoriaDTO>(categoria));
             }
 
-            return categoriasDTOs;
+            var pagedList = new PagedList<CategoriaDTO>(parameters.PageSize, parameters.PageNumber, categoriasDTOs);
+
+            return pagedList;
         }
 
         public CategoriaDTO CreateCategoria(CategoriaDTO categoriaDTO)

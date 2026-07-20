@@ -1,4 +1,5 @@
-﻿using Ecommerce.Application.DTOs.Categoria;
+﻿using Ecommerce.Application.Common.Pagination;
+using Ecommerce.Application.DTOs.Categoria;
 using Ecommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +17,9 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get()
+        public ActionResult Get([FromQuery] int pageSize, [FromQuery] int pageNumber)
         {
-            return Ok(_categoriasService.GetAllCategorias());
+            return Ok(_categoriasService.GetAllCategorias(pageSize, pageNumber));
         }
 
         [HttpPost]
