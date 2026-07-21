@@ -4,11 +4,12 @@ namespace Ecommerce.Application.Common.Pagination
 {
     public class PagedList<T>
     {
-        public PagedList(int pageSize, int pageNumber, List<T> items)
+        public PagedList(int pageSize, int pageNumber, List<T> items, int totalCount)
         {
             PageSize = pageSize;
             CurrentPage = pageNumber;
             Items = items;
+            TotalCount = totalCount;
         }
         public int CurrentPage {  get; set; }
         public int PageSize { get; set; }
