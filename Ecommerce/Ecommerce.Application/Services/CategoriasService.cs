@@ -22,20 +22,20 @@ namespace Ecommerce.Application.Services
 
         }
 
-        public PagedList<CategoriaDTO> GetAllCategorias (int pageSize, int pageNumber)
+        public PagedList<CategoriaDTO> GetAllCategorias (PaginationParameters paginationParameters)
         {
-            var parameters = new PaginationParameters(pageSize, pageNumber);
+            //var parameters = new PaginationParameters(paginationParameters.PageSize, paginationParameters.PageNumber);
 
             var query = _categoriaRepository.GetAll();
 
             var totalCount = query.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / parameters.PageSize);
-            var currentPage = Math.Min(parameters.PageNumber, totalPages == 0 ? 1 : totalPages);
+            var totalPages = (int)Math.Ceiling((double)totalCount / paginationParameters.PageSize);
+            var currentPage = Math.Min(paginationParameters.PageNumber, totalPages == 0 ? 1 : totalPages);
 
             var categorias = query
-            //.OrderBy(c => c.Nome)
-            .Skip((currentPage - 1) * parameters.PageSize)
-            .Take(parameters.PageSize)
+            .OrderBy(c => c.Nome)
+            .Skip((currentPage - 1) * paginationParameters.PageSize)
+            .Take(paginationParameters.PageSize)
             .ToList();
 
             var categoriasDTOs = new List<CategoriaDTO>();
@@ -45,7 +45,7 @@ namespace Ecommerce.Application.Services
                 categoriasDTOs.Add(_mapper.Map<CategoriaDTO>(categoria));
             }
 
-            var pagedList = new PagedList<CategoriaDTO>(parameters.PageSize, currentPage, categoriasDTOs, totalCount, totalPages);
+            var pagedList = new PagedList<CategoriaDTO>(paginationParameters.PageSize, categoriasDTOs, totalCount, totalPages, currentPage);
 
             return pagedList;
         }

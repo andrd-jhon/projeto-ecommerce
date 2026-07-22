@@ -10,7 +10,7 @@ namespace Ecommerce.Application.Interfaces
 {
     public interface ICategoriasService
     {
-        PagedList<CategoriaDTO> GetAllCategorias(int pageNumber, int pageSize);
+        PagedList<CategoriaDTO> GetAllCategorias(PaginationParameters paginationParameters);
         CategoriaDTO CreateCategoria(CategoriaDTO categoriaDTO);
         CategoriaDTO UpdateCategoria(CategoriaDTO categoriaDTO, int id);
         CategoriaDTO DesativarCategoria(int id);

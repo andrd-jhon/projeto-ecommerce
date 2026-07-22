@@ -8,6 +8,10 @@
         private int _pageSize = DefaultPageSize;
         private int _pageNumber = DefaultPageNumber;
 
+        public PaginationParameters()
+        {
+        }
+
         public PaginationParameters(int pageSize, int pageNumber)
         {
             PageSize = pageSize;
