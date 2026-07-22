@@ -1,4 +1,5 @@
-﻿using Ecommerce.Application.DTOs.Produto;
+﻿using Ecommerce.Application.Common.Pagination;
+using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +17,9 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProdutoDTO>> Get()
+        public ActionResult<IEnumerable<ProdutoDTO>> Get([FromQuery]PaginationParameters paginationParameters)
         {
-            return Ok(_produtosService.CarregarProdutos());
+            return Ok(_produtosService.CarregarProdutos(paginationParameters));
         }
 
         [HttpPost]

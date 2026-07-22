@@ -22,10 +22,8 @@ namespace Ecommerce.Application.Services
 
         }
 
-        public PagedList<CategoriaDTO> GetAllCategorias (PaginationParameters paginationParameters)
+        public PagedList<CategoriaDTO> CarregarCategorias (PaginationParameters paginationParameters)
         {
-            //var parameters = new PaginationParameters(paginationParameters.PageSize, paginationParameters.PageNumber);
-
             var query = _categoriaRepository.GetAll();
 
             var totalCount = query.Count();

@@ -19,7 +19,7 @@ namespace Ecommerce.API.Controllers
         [HttpGet]
         public ActionResult Get([FromQuery] PaginationParameters paginationParameters)
         {
-            return Ok(_categoriasService.GetAllCategorias(paginationParameters));
+            return Ok(_categoriasService.CarregarCategorias(paginationParameters));
         }
 
         [HttpPost]
