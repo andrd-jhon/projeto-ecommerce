@@ -24,21 +24,19 @@ namespace Ecommerce.Application.Services
 
         public PagedList<CategoriaDTO> GetAllCategorias (int pageSize, int pageNumber)
         {
-            //classe de parametros valida os valores vindos do front, SEMPRE devo passalos para a classe PaginationParameters.
             var parameters = new PaginationParameters(pageSize, pageNumber);
 
             var query = _categoriaRepository.GetAll();
 
             var totalCount = query.Count();
-
+            var totalPages = (int)Math.Ceiling((double)totalCount / parameters.PageSize);
+            var currentPage = Math.Min(parameters.PageNumber, totalPages == 0 ? 1 : totalPages);
 
             var categorias = query
-            .OrderBy(c => c.Nome)
-            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+            //.OrderBy(c => c.Nome)
+            .Skip((currentPage - 1) * parameters.PageSize)
             .Take(parameters.PageSize)
             .ToList();
-
-            
 
             var categoriasDTOs = new List<CategoriaDTO>();
 
@@ -47,7 +45,7 @@ namespace Ecommerce.Application.Services
                 categoriasDTOs.Add(_mapper.Map<CategoriaDTO>(categoria));
             }
 
-            var pagedList = new PagedList<CategoriaDTO>(parameters.PageSize, parameters.PageNumber, categoriasDTOs, totalCount);
+            var pagedList = new PagedList<CategoriaDTO>(parameters.PageSize, currentPage, categoriasDTOs, totalCount, totalPages);
 
             return pagedList;
         }

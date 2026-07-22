@@ -2,9 +2,9 @@
 {
     public class PaginationParameters
     {
-        private const int DefaultPageSize = 10;
+        private const int DefaultPageSize = 5;
         private const int DefaultPageNumber = 1;
-        private const int MaxPageSize = 50;
+        private const int MaxPageSize = 10;
         private int _pageSize = DefaultPageSize;
         private int _pageNumber = DefaultPageNumber;
 
@@ -28,10 +28,10 @@
                 if (value <= 0)
                     _pageSize = DefaultPageSize;
 
-                if (value > MaxPageSize)
+                else if (value > MaxPageSize)
                     _pageSize = MaxPageSize;
-                
-                _pageSize = value;
+                else
+                    _pageSize = value;
             } 
         }
         /// <summary>
