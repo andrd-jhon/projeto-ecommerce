@@ -4,7 +4,7 @@ using Ecommerce.Application.DTOs.Categoria;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
-using Ecommerce.Domain.Interfaces
+using Ecommerce.Domain.Interfaces;
 
 namespace Ecommerce.Application.Services
 {
