@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using Ecommerce.Application.Common.Pagination;
 using Ecommerce.Application.DTOs.Categoria;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
+using System.Linq;
 
 namespace Ecommerce.Application.Services
 {
     public class CategoriasService: ICategoriasService
+
     {
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IMapper _mapper;
@@ -19,9 +22,19 @@ namespace Ecommerce.Application.Services
 
         }
 
-        public IEnumerable<CategoriaDTO> GetAllCategorias ()
+        public PagedList<CategoriaDTO> CarregarCategorias (PaginationParameters paginationParameters)
         {
-            var categorias = _categoriaRepository.GetAll();
+            var query = _categoriaRepository.GetAll();
+
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / paginationParameters.PageSize);
+            var currentPage = Math.Min(paginationParameters.PageNumber, totalPages == 0 ? 1 : totalPages);
+
+            var categorias = query
+            .OrderBy(c => c.Nome)
+            .Skip((currentPage - 1) * paginationParameters.PageSize)
+            .Take(paginationParameters.PageSize)
+            .ToList();
 
             var categoriasDTOs = new List<CategoriaDTO>();
 
@@ -30,7 +43,9 @@ namespace Ecommerce.Application.Services
                 categoriasDTOs.Add(_mapper.Map<CategoriaDTO>(categoria));
             }
 
-            return categoriasDTOs;
+            var pagedList = new PagedList<CategoriaDTO>(paginationParameters.PageSize, categoriasDTOs, totalCount, totalPages, currentPage);
+
+            return pagedList;
         }
 
         public CategoriaDTO CreateCategoria(CategoriaDTO categoriaDTO)

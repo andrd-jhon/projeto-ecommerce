@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Domain.Interfaces;
 using Ecommerce.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.Repositories
 {
@@ -12,9 +13,9 @@ namespace Ecommerce.Infrastructure.Repositories
             _context = context;
         }
 
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return _context.Set<T>().AsNoTracking();
         }
 
         public T GetById(int id)

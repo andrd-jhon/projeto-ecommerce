@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
+using Ecommerce.Application.Common.Pagination;
+using Ecommerce.Application.DTOs.Categoria;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
@@ -74,9 +71,19 @@ namespace Ecommerce.Application.Services
             return produtoDTO;
         }
 
-        public List<ProdutoDTO> CarregarProdutos ()
+        public PagedList<ProdutoDTO> CarregarProdutos (PaginationParameters paginationParameters)
         {
-            var produtos = _produtoRepository.GetAll();
+            var query = _produtoRepository.GetAll();
+
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / paginationParameters.PageSize);
+            var currentPage = Math.Min(paginationParameters.PageNumber, totalPages == 0 ? 1 : totalPages);
+
+            var produtos = query
+            .OrderBy(c => c.Nome)
+            .Skip((currentPage - 1) * paginationParameters.PageSize)
+            .Take(paginationParameters.PageSize)
+            .ToList();
 
             var produtosDTOs = new List<ProdutoDTO>();
 
@@ -85,7 +92,9 @@ namespace Ecommerce.Application.Services
                 produtosDTOs.Add(_mapper.Map<ProdutoDTO>(produto));
             }
 
-            return produtosDTOs;
+            var pagedList = new PagedList<ProdutoDTO>(paginationParameters.PageSize, produtosDTOs, totalCount, totalPages, currentPage);
+
+            return pagedList;
         }
     }
 }

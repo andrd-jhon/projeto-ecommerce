@@ -8,7 +8,7 @@ namespace Ecommerce.Domain.Interfaces
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
         T GetById(int id);
         T Create(T entity);
         T Update(T entity);
