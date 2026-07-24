@@ -11,7 +11,6 @@ interface Produto {
 }
 
 const Produto = () => {
-
     const [produtos, setProdutos] = useState<Produto[]>([])
 
     useEffect(() => {
@@ -36,7 +35,7 @@ const Produto = () => {
         <ul>
             {produtos.map((produto) => (
             <li key={produto.id}>
-                <Link href={`/produto/${produto.id}`}>
+                <Link href={`/produtos/${produto.id}`}>
                 <h2>{produto.nome}</h2>
 
                 <Image

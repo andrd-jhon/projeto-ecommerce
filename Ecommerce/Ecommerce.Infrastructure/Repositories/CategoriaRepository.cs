@@ -12,5 +12,10 @@ namespace Ecommerce.Infrastructure.Repositories
     public class CategoriaRepository: Repository<Categoria>, ICategoriaRepository
     {
         public CategoriaRepository (ApplicationDbContext context) : base(context) { }
+
+        public IQueryable<Categoria> SearchByName (string name)
+        {
+            return GetAll().Where(c => c.Nome.Contains(name));
+        }
     }
 }

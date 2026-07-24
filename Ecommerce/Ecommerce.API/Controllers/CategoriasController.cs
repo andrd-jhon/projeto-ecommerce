@@ -39,5 +39,11 @@ namespace Ecommerce.API.Controllers
         {
             return Ok(_categoriasService.DesativarCategoria(id));
         }
+
+        [HttpGet("search")]
+        public ActionResult<PagedList<CategoriaDTO>> SerachByName ([FromQuery]string searchedName,[FromQuery] PaginationParameters paginationParameters)
+        {
+            return _categoriasService.SearchByName(searchedName, paginationParameters);
+        }
     }
 }

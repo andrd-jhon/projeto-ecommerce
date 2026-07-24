@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Application.Common.Pagination;
 using Ecommerce.Application.DTOs.Categoria;
+using Ecommerce.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace Ecommerce.Application.Interfaces
         CategoriaDTO CreateCategoria(CategoriaDTO categoriaDTO);
         CategoriaDTO UpdateCategoria(CategoriaDTO categoriaDTO, int id);
         CategoriaDTO DesativarCategoria(int id);
+        PagedList<CategoriaDTO> SearchByName(string name, PaginationParameters paginationParameters);
+
+
     }
 }
