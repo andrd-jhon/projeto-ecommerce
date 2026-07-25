@@ -15,7 +15,7 @@ namespace Ecommerce.Infrastructure.Repositories
 
         public IQueryable<Categoria> SearchByName (string name)
         {
-            return GetAll().Where(c => c.Nome.Contains(name));
+            return GetAll().Where(c => c.Nome.Contains(name.ToLower()));
         }
     }
 }

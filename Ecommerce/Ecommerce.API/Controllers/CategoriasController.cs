@@ -41,9 +41,9 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet("search")]
-        public ActionResult<PagedList<CategoriaDTO>> SerachByName ([FromQuery]string searchedName,[FromQuery] PaginationParameters paginationParameters)
+        public ActionResult<PagedList<CategoriaDTO>> SerachByName ([FromQuery]string? search,[FromQuery] PaginationParameters paginationParameters)
         {
-            return _categoriasService.SearchByName(searchedName, paginationParameters);
+            return Ok(_categoriasService.SearchByName(search, paginationParameters));
         }
     }
 }

@@ -72,8 +72,11 @@ namespace Ecommerce.Application.Services
             return categoriaDTO;
         }
 
-        public PagedList<CategoriaDTO> SearchByName (string name, PaginationParameters paginationParameters)
+        public PagedList<CategoriaDTO> SearchByName (string? name, PaginationParameters paginationParameters)
         {
+            if (!string.IsNullOrEmpty(name))
+                return CarregarCategorias(paginationParameters);
+
             var categorias = _categoriaRepository.SearchByName(name);
 
             var pagedList = PaginarListaCategorias(paginationParameters, categorias);
