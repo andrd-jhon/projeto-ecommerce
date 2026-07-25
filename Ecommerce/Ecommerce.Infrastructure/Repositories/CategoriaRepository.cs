@@ -13,9 +13,13 @@ namespace Ecommerce.Infrastructure.Repositories
     {
         public CategoriaRepository (ApplicationDbContext context) : base(context) { }
 
-        public IQueryable<Categoria> SearchByName (string name)
+        public IQueryable<Categoria> SearchByName (string? search)
         {
-            return GetAll().Where(c => c.Nome.Contains(name.ToLower()));
+            if (string.IsNullOrWhiteSpace(search))
+                return GetAll();
+
+            var normalized = search.ToLower().Trim();
+            return GetAll().Where(c => c.Nome.ToLower().Contains(normalized));
         }
     }
 }

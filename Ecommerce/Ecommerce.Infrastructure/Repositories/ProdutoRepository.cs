@@ -17,5 +17,14 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             return GetAll().Where(p => p.CategoriaId == id);
         }
+
+        public IQueryable<Produto> SearchByName(string? search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+                return GetAll();
+
+            var normalized = search.ToLower().Trim();
+            return GetAll().Where(p => p.Nome.ToLower().Contains(normalized));
+        }
     }
 }

@@ -20,11 +20,11 @@ namespace Ecommerce.Application.Services
 
         }
 
-        public PagedList<CategoriaDTO> CarregarCategorias (PaginationParameters paginationParameters)
+        public PagedList<CategoriaDTO> CarregarCategorias (PaginationParameters paginationParameters, string? search)
         {
-            var query = _categoriaRepository.GetAll();
+            var query = _categoriaRepository.SearchByName(search);
 
-            var pagedList = PaginarListaCategorias(paginationParameters, query);
+            var pagedList = PagedListFactory.Create(query, paginationParameters, orderBy: c => c.Nome, map: c => _mapper.Map<CategoriaDTO>(c));
 
             return pagedList;
         }
@@ -70,42 +70,6 @@ namespace Ecommerce.Application.Services
             var categoriaDTO = _mapper.Map<CategoriaDTO>(_categoriaRepository.Update(categoria));
 
             return categoriaDTO;
-        }
-
-        public PagedList<CategoriaDTO> SearchByName (string? name, PaginationParameters paginationParameters)
-        {
-            if (!string.IsNullOrEmpty(name))
-                return CarregarCategorias(paginationParameters);
-
-            var categorias = _categoriaRepository.SearchByName(name);
-
-            var pagedList = PaginarListaCategorias(paginationParameters, categorias);
-
-            return pagedList;
-        }
-
-        public PagedList<CategoriaDTO> PaginarListaCategorias (PaginationParameters paginationParameters, IQueryable<Categoria> query)
-        {
-            var totalCount = query.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / paginationParameters.PageSize);
-            var currentPage = Math.Min(paginationParameters.PageNumber, totalPages == 0 ? 1 : totalPages);
-
-            var categorias = query
-            .OrderBy(c => c.Nome)
-            .Skip((currentPage - 1) * paginationParameters.PageSize)
-            .Take(paginationParameters.PageSize)
-            .ToList();
-
-            var categoriasDTOs = new List<CategoriaDTO>();
-
-            foreach (var categoria in categorias)
-            {
-                categoriasDTOs.Add(_mapper.Map<CategoriaDTO>(categoria));
-            }
-
-            var pagedList = new PagedList<CategoriaDTO>(paginationParameters.PageSize, categoriasDTOs, totalCount, totalPages, currentPage);
-
-            return pagedList;
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Ecommerce.Domain.Interfaces
     public interface IProdutoRepository : IRepository<Produto>
     {
         IEnumerable<Produto> GetProdutosPorCategorias(int id);
+        IQueryable<Produto> SearchByName(string? search);
     }
 }

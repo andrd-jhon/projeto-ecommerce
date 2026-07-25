@@ -11,10 +11,9 @@ namespace Ecommerce.Application.Interfaces
 {
     public interface IProdutosService
     {
-        IEnumerable<ProdutoResponseDTO> GetAllProdutos();
         ProdutoDTO CreateProduto(ProdutoDTO produtoDTO);
         ProdutoDTO UpdateProduto(ProdutoDTO produtoDTO, int id);
         ProdutoDTO DeleteProduto(ProdutoDTO produtoDTO);
-        PagedList<ProdutoDTO> CarregarProdutos(PaginationParameters paginationParameters);
+        PagedList<ProdutoDTO> CarregarProdutos(PaginationParameters paginationParameters, string? search);
     }
 }

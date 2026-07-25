@@ -19,18 +19,13 @@ namespace Ecommerce.Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<ProdutoResponseDTO> GetAllProdutos()
+        public PagedList<ProdutoDTO> CarregarProdutos(PaginationParameters paginationParameters, string? search)
         {
-            var produtos = _produtoRepository.GetAll();
+            var query = _produtoRepository.SearchByName(search);
 
-            var produtosDTOs = new List<ProdutoResponseDTO>();
+            var pagedList = PagedListFactory.Create(query, paginationParameters, p => p.Nome, map: p => _mapper.Map<ProdutoDTO>(p));
 
-            foreach (var produto in produtos)
-            {
-                produtosDTOs.Add(_mapper.Map<ProdutoResponseDTO>(produto));
-            } 
-
-            return produtosDTOs;
+            return pagedList;
         }
 
         public ProdutoDTO CreateProduto (ProdutoDTO produtoDTO)
@@ -69,32 +64,6 @@ namespace Ecommerce.Application.Services
             produtoDTO = _mapper.Map<ProdutoDTO>(_produtoRepository.Update(produto));
 
             return produtoDTO;
-        }
-
-        public PagedList<ProdutoDTO> CarregarProdutos (PaginationParameters paginationParameters)
-        {
-            var query = _produtoRepository.GetAll();
-
-            var totalCount = query.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / paginationParameters.PageSize);
-            var currentPage = Math.Min(paginationParameters.PageNumber, totalPages == 0 ? 1 : totalPages);
-
-            var produtos = query
-            .OrderBy(c => c.Nome)
-            .Skip((currentPage - 1) * paginationParameters.PageSize)
-            .Take(paginationParameters.PageSize)
-            .ToList();
-
-            var produtosDTOs = new List<ProdutoDTO>();
-
-            foreach (var produto in produtos)
-            {
-                produtosDTOs.Add(_mapper.Map<ProdutoDTO>(produto));
-            }
-
-            var pagedList = new PagedList<ProdutoDTO>(paginationParameters.PageSize, produtosDTOs, totalCount, totalPages, currentPage);
-
-            return pagedList;
         }
     }
 }

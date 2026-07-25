@@ -17,9 +17,11 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get([FromQuery] PaginationParameters paginationParameters)
+        public ActionResult Get(
+            [FromQuery] PaginationParameters paginationParameters,
+            [FromQuery] string? search)
         {
-            return Ok(_categoriasService.CarregarCategorias(paginationParameters));
+            return Ok(_categoriasService.CarregarCategorias(paginationParameters, search));
         }
 
         [HttpPost]
@@ -38,12 +40,6 @@ namespace Ecommerce.API.Controllers
         public ActionResult<CategoriaDTO> Delete(int id)
         {
             return Ok(_categoriasService.DesativarCategoria(id));
-        }
-
-        [HttpGet("search")]
-        public ActionResult<PagedList<CategoriaDTO>> SerachByName ([FromQuery]string? search,[FromQuery] PaginationParameters paginationParameters)
-        {
-            return Ok(_categoriasService.SearchByName(search, paginationParameters));
         }
     }
 }

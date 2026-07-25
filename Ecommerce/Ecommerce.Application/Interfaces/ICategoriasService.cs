@@ -11,11 +11,10 @@ namespace Ecommerce.Application.Interfaces
 {
     public interface ICategoriasService
     {
-        PagedList<CategoriaDTO> CarregarCategorias(PaginationParameters paginationParameters);
+        PagedList<CategoriaDTO> CarregarCategorias(PaginationParameters paginationParameters, string search);
         CategoriaDTO CreateCategoria(CategoriaDTO categoriaDTO);
         CategoriaDTO UpdateCategoria(CategoriaDTO categoriaDTO, int id);
         CategoriaDTO DesativarCategoria(int id);
-        PagedList<CategoriaDTO> SearchByName(string name, PaginationParameters paginationParameters);
 
 
     }
