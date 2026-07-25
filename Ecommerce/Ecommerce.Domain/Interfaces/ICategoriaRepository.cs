@@ -9,5 +9,6 @@ namespace Ecommerce.Domain.Interfaces
 {
     public interface ICategoriaRepository: IRepository<Categoria>
     {
+        IQueryable<Categoria> SearchByName(string name);
     }
 }

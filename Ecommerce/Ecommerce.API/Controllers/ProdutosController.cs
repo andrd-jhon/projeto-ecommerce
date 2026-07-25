@@ -17,9 +17,11 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProdutoDTO>> Get([FromQuery]PaginationParameters paginationParameters)
+        public ActionResult<IEnumerable<ProdutoDTO>> Get(
+            [FromQuery] PaginationParameters paginationParameters,
+            [FromQuery] string? search)
         {
-            return Ok(_produtosService.CarregarProdutos(paginationParameters));
+            return Ok(_produtosService.CarregarProdutos(paginationParameters, search));
         }
 
         [HttpPost]

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Pagination;
 using Ecommerce.Application.DTOs.Categoria;
-using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
-using System.Linq;
 
 namespace Ecommerce.Application.Services
 {
@@ -22,28 +20,11 @@ namespace Ecommerce.Application.Services
 
         }
 
-        public PagedList<CategoriaDTO> CarregarCategorias (PaginationParameters paginationParameters)
+        public PagedList<CategoriaDTO> CarregarCategorias (PaginationParameters paginationParameters, string? search)
         {
-            var query = _categoriaRepository.GetAll();
+            var query = _categoriaRepository.SearchByName(search);
 
-            var totalCount = query.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / paginationParameters.PageSize);
-            var currentPage = Math.Min(paginationParameters.PageNumber, totalPages == 0 ? 1 : totalPages);
-
-            var categorias = query
-            .OrderBy(c => c.Nome)
-            .Skip((currentPage - 1) * paginationParameters.PageSize)
-            .Take(paginationParameters.PageSize)
-            .ToList();
-
-            var categoriasDTOs = new List<CategoriaDTO>();
-
-            foreach (var categoria in categorias)
-            {
-                categoriasDTOs.Add(_mapper.Map<CategoriaDTO>(categoria));
-            }
-
-            var pagedList = new PagedList<CategoriaDTO>(paginationParameters.PageSize, categoriasDTOs, totalCount, totalPages, currentPage);
+            var pagedList = PagedListFactory.Create(query, paginationParameters, orderBy: c => c.Nome, map: c => _mapper.Map<CategoriaDTO>(c));
 
             return pagedList;
         }

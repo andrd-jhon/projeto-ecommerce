@@ -17,9 +17,11 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get([FromQuery] PaginationParameters paginationParameters)
+        public ActionResult Get(
+            [FromQuery] PaginationParameters paginationParameters,
+            [FromQuery] string? search)
         {
-            return Ok(_categoriasService.CarregarCategorias(paginationParameters));
+            return Ok(_categoriasService.CarregarCategorias(paginationParameters, search));
         }
 
         [HttpPost]
