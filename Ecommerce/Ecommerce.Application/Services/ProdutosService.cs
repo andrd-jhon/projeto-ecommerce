@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Pagination;
-using Ecommerce.Application.DTOs.Categoria;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
@@ -10,18 +9,20 @@ namespace Ecommerce.Application.Services
 {
     public class ProdutosService: IProdutosService
     {
-        private readonly IProdutoRepository _produtoRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProdutosService(IProdutoRepository produtoRepository, IMapper mapper)
+        public ProdutosService(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _produtoRepository = produtoRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
-        public PagedList<ProdutoDTO> CarregarProdutos(PaginationParameters paginationParameters, string? search)
+        public PagedList<ProdutoDTO> CarregarProdutos(
+            PaginationParameters paginationParameters, 
+            string? search)
         {
-            var query = _produtoRepository.SearchByName(search);
+            var query = _unitOfWork.ProdutoRepository.SearchByName(search);
 
             var pagedList = PagedListFactory.Create(query, paginationParameters, p => p.Nome, map: p => _mapper.Map<ProdutoDTO>(p));
 
@@ -32,7 +33,9 @@ namespace Ecommerce.Application.Services
         {
             var produto = _mapper.Map<Produto>(produtoDTO);
 
-            produto = _produtoRepository.Create(produto);
+            produto = _unitOfWork.ProdutoRepository.Create(produto);
+
+            _unitOfWork.Commit();
 
             produtoDTO = _mapper.Map<ProdutoDTO>(produto);
 
@@ -44,12 +47,14 @@ namespace Ecommerce.Application.Services
             if (produtoDTO.Id != id)
                 throw new ArgumentException("O ID informado não corresponde ao ID do produto.");
 
-            var produto = _produtoRepository.GetById(id) 
+            var produto = _unitOfWork.ProdutoRepository.GetById(id) 
                 ?? throw new InvalidOperationException("Produto não encontrado.");
 
             produto.Atualizar(produtoDTO.Nome, produtoDTO.Preco, produtoDTO.CategoriaId);
 
-            var produtoAtualizado = _produtoRepository.Update(produto);
+            var produtoAtualizado = _unitOfWork.ProdutoRepository.Update(produto);
+
+            _unitOfWork.Commit();
 
             return _mapper.Map<ProdutoDTO>(produtoAtualizado);
         }
@@ -61,7 +66,9 @@ namespace Ecommerce.Application.Services
 
             var produto = _mapper.Map<Produto>(produtoDTO);
 
-            produtoDTO = _mapper.Map<ProdutoDTO>(_produtoRepository.Update(produto));
+            produtoDTO = _mapper.Map<ProdutoDTO>(_unitOfWork.ProdutoRepository.Update(produto));
+
+            _unitOfWork.Commit();
 
             return produtoDTO;
         }

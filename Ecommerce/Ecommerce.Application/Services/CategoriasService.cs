@@ -25,7 +25,7 @@ namespace Ecommerce.Application.Services
 
             var pagedList = PagedListFactory.Create(query, paginationParameters, orderBy: c => c.Nome, map: c => _mapper.Map<CategoriaDTO>(c));
 
-            return pagedList;
+            return pagedList; 
         }
 
         public CategoriaDTO CreateCategoria(CategoriaDTO categoriaDTO)
@@ -50,8 +50,6 @@ namespace Ecommerce.Application.Services
             var categoria = _unitOfWork.CategoriaRepository.GetById(id) ?? throw new InvalidOperationException("Categoria não èncontrada.");
 
             categoria.AtualizarNome(categoriaDTO.Nome);
-
-            _mapper.Map(categoriaDTO, categoria);
 
             var categoriaAtualizada = _unitOfWork.CategoriaRepository.Update(categoria);
 
