@@ -10,19 +10,18 @@ namespace Ecommerce.Application.Services
     public class CategoriasService: ICategoriasService
 
     {
-        private readonly ICategoriaRepository _categoriaRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoriasService(ICategoriaRepository categoriaRepository, IMapper mapper)
+        public CategoriasService(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _categoriaRepository = categoriaRepository;
             _mapper = mapper;
-
+            _unitOfWork = unitOfWork;
         }
 
         public PagedList<CategoriaDTO> CarregarCategorias (PaginationParameters paginationParameters, string? search)
         {
-            var query = _categoriaRepository.SearchByName(search);
+            var query = _unitOfWork.CategoriaRepository.SearchByName(search);
 
             var pagedList = PagedListFactory.Create(query, paginationParameters, orderBy: c => c.Nome, map: c => _mapper.Map<CategoriaDTO>(c));
 
@@ -36,7 +35,9 @@ namespace Ecommerce.Application.Services
 
             var categoria = _mapper.Map<Categoria>(categoriaDTO);
 
-            categoria = _categoriaRepository.Create(categoria);
+            categoria = _unitOfWork.CategoriaRepository.Create(categoria);
+
+            _unitOfWork.Commit();
 
             return _mapper.Map<CategoriaDTO>(categoria);
         }
@@ -46,13 +47,15 @@ namespace Ecommerce.Application.Services
             if (categoriaDTO.Id != id)
                 throw new ArgumentException("O ID informado não corresponde ao ID da categoria.");
 
-            var categoria = _categoriaRepository.GetById(id) ?? throw new InvalidOperationException("Categoria não èncontrada.");
+            var categoria = _unitOfWork.CategoriaRepository.GetById(id) ?? throw new InvalidOperationException("Categoria não èncontrada.");
 
             categoria.AtualizarNome(categoriaDTO.Nome);
 
             _mapper.Map(categoriaDTO, categoria);
 
-            var categoriaAtualizada = _categoriaRepository.Update(categoria);
+            var categoriaAtualizada = _unitOfWork.CategoriaRepository.Update(categoria);
+
+            _unitOfWork.Commit();
 
             return _mapper.Map<CategoriaDTO>(categoriaAtualizada);
         }
@@ -62,12 +65,14 @@ namespace Ecommerce.Application.Services
             if (id <= 0)
                 throw new ArgumentException("O ID deve ser maior que 0.");
 
-            var categoria = _categoriaRepository.GetById(id)
+            var categoria = _unitOfWork.CategoriaRepository.GetById(id)
                 ?? throw new InvalidOperationException("Categoria inexistente.");
             
             categoria.Desativar();
 
-            var categoriaDTO = _mapper.Map<CategoriaDTO>(_categoriaRepository.Update(categoria));
+            var categoriaDTO = _mapper.Map<CategoriaDTO>(_unitOfWork.CategoriaRepository.Update(categoria));
+
+            _unitOfWork.Commit();
 
             return categoriaDTO;
         }
