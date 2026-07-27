@@ -22,6 +22,7 @@ namespace Ecommerce.CrossCutting.IoC
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
             //Unit of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
