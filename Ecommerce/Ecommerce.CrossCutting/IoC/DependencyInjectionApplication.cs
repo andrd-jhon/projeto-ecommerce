@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ecommerce.Application.Common.Sorting;
 using Ecommerce.Application.DTOs;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Mapping;
@@ -19,6 +20,7 @@ namespace Ecommerce.CrossCutting.IoC
 
             services.AddScoped<IProdutosService, ProdutosService>();
             services.AddScoped<ICategoriasService, CategoriasService>();
+            services.AddScoped<ISortingApplier, SortingApplier>();
 
             //adicionar automapper
 

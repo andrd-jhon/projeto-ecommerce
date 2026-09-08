@@ -7,7 +7,6 @@ namespace Ecommerce.Application.Common.Pagination
         public static PagedList<TDto> Create<TEntity, TDto>(
         IQueryable<TEntity> query,
         PaginationParameters parameters,
-        Expression<Func<TEntity, object>> orderBy,
         Func<TEntity, TDto> map)
         {
             var totalCount = query.Count();
@@ -15,7 +14,6 @@ namespace Ecommerce.Application.Common.Pagination
             var currentPage = Math.Min(parameters.PageNumber, totalPages == 0 ? 1 : totalPages);
 
             var items = query
-                .OrderBy(orderBy)
                 .Skip((currentPage - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
                 .ToList()

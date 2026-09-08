@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Pagination;
+using Ecommerce.Application.Common.Sorting;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
@@ -11,20 +12,25 @@ namespace Ecommerce.Application.Services
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISortingApplier _sortingApplier;
 
-        public ProdutosService(IMapper mapper, IUnitOfWork unitOfWork)
+        public ProdutosService(IMapper mapper, IUnitOfWork unitOfWork, ISortingApplier sortingApplier)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _sortingApplier = sortingApplier;
         }
 
         public PagedList<ProdutoDTO> CarregarProdutos(
             PaginationParameters paginationParameters, 
+            SortingParameters sortingParameters,
             string? search)
         {
             var query = _unitOfWork.ProdutoRepository.SearchByName(search);
 
-            var pagedList = PagedListFactory.Create(query, paginationParameters, p => p.Nome, map: p => _mapper.Map<ProdutoDTO>(p));
+            query = _sortingApplier.Apply(query, sortingParameters, ProdutoSortFields.Definition);
+
+            var pagedList = PagedListFactory.Create(query, paginationParameters, map: p => _mapper.Map<ProdutoDTO>(p));
 
             return pagedList;
         }
@@ -59,7 +65,7 @@ namespace Ecommerce.Application.Services
             return _mapper.Map<ProdutoDTO>(produtoAtualizado);
         }
 
-        public ProdutoDTO DeleteProduto (ProdutoDTO produtoDTO)
+        public ProdutoDTO DeleteProduto(ProdutoDTO produtoDTO)
         {
             if (produtoDTO.Ativo)
                 produtoDTO.Ativo = false;
