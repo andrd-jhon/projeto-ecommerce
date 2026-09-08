@@ -1,6 +1,7 @@
 ﻿using Ecommerce.API.Responses;
 using Ecommerce.Domain.Validation;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.API.Extensions
 {
@@ -52,7 +53,7 @@ namespace Ecommerce.API.Extensions
 
                     if (env.IsDevelopment())
                     {
-                        errorDetails.Trace = exception.StackTrace;
+                        errorDetails.Trace = exception.ToString();
                     }
 
                     context.Response.StatusCode = errorDetails.StatusCode;

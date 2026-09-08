@@ -10,6 +10,7 @@ namespace Ecommerce.Domain.Interfaces
     {
         IProdutoRepository ProdutoRepository { get; }
         ICategoriaRepository CategoriaRepository { get; }
+        IUserRepository UserRepository { get; }
         void Commit();
         void Dispose();
     }
