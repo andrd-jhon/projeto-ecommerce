@@ -1,4 +1,5 @@
 using Ecommerce.API.Extensions;
+using Ecommerce.Application.Common.Sorting;
 using Ecommerce.CrossCutting.IoC;
 
 var builder = WebApplication.CreateBuilder(args);

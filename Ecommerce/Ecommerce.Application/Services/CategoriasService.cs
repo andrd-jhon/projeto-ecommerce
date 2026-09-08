@@ -23,7 +23,7 @@ namespace Ecommerce.Application.Services
         {
             var query = _unitOfWork.CategoriaRepository.SearchByName(search);
 
-            var pagedList = PagedListFactory.Create(query, paginationParameters, orderBy: c => c.Nome, map: c => _mapper.Map<CategoriaDTO>(c));
+            var pagedList = PagedListFactory.Create(query, paginationParameters, map: c => _mapper.Map<CategoriaDTO>(c));
 
             return pagedList; 
         }

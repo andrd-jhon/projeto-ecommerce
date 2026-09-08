@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Common.Pagination;
+using Ecommerce.Application.Common.Sorting;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Domain.Entities;
 using System;
@@ -14,6 +15,6 @@ namespace Ecommerce.Application.Interfaces
         ProdutoDTO CreateProduto(ProdutoDTO produtoDTO);
         ProdutoDTO UpdateProduto(ProdutoDTO produtoDTO, int id);
         ProdutoDTO DeleteProduto(ProdutoDTO produtoDTO);
-        PagedList<ProdutoDTO> CarregarProdutos(PaginationParameters paginationParameters, string? search);
+        PagedList<ProdutoDTO> CarregarProdutos(PaginationParameters paginationParameters, SortingParameters sortingParameters, string? search);
     }
 }

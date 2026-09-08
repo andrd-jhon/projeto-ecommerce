@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Common.Pagination;
+using Ecommerce.Application.Common.Sorting;
 using Ecommerce.Application.DTOs.Produto;
 using Ecommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,10 @@ namespace Ecommerce.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ProdutoDTO>> Get(
             [FromQuery] PaginationParameters paginationParameters,
+            [FromQuery] SortingParameters sortingParameters,
             [FromQuery] string? search)
         {
-            return Ok(_produtosService.CarregarProdutos(paginationParameters, search));
+            return Ok(_produtosService.CarregarProdutos(paginationParameters, sortingParameters, search));
         }
 
         [HttpPost]
@@ -38,7 +40,7 @@ namespace Ecommerce.API.Controllers
 
         [HttpDelete]
         public ActionResult<ProdutoResponseDTO> Delete(ProdutoDTO produtoDTO)
-        { 
+        {
             return Ok(_produtosService.DeleteProduto(produtoDTO));
         }
     }
